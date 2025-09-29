@@ -247,14 +247,6 @@
             font-weight: 500;
         }
 
-        input[type="checkbox"] {
-            accent-color: #8e2de2;
-        }
-
-        input[type="checkbox"]:hover {
-            cursor: pointer;
-        }
-
         .pdf-container {
             border-radius: 12px;
             overflow: hidden;
@@ -458,23 +450,9 @@
             <h2>📋 Apply to Compete</h2>
             <p>Think you have what it takes? Fill out our online application form to secure your spot in the competition!</p>
             
-            <div style="background: #f8f9fa; padding: 25px; border-radius: 12px; margin: 20px 0;">
-                <div style="display: flex; align-items: start; margin-bottom: 20px;">
-                    <input type="checkbox" id="termsCheckbox" style="display: block; width: 20px; height: 20px; margin-right: 15px; margin-top: 3px; cursor: pointer;">
-                    <label for="termsCheckbox" style="color: #333; font-size: 1em; line-height: 1.6; cursor: pointer;">
-                        <strong>I agree to the terms and conditions:</strong> I confirm that all information provided is accurate and complete. I understand that I must follow all competition rules and guidelines. I give permission for my performance to be recorded and shared on social media platforms. I accept that the judges' decisions are final.
-                        <span style="color: #ff6b6b; font-weight: bold;">*</span>
-                    </label>
-                </div>
-                
-                <button id="applyBtn" class="btn" disabled style="opacity: 0.5; cursor: not-allowed;">
-                    🎤 Fill Application Form
-                </button>
-            </div>
-
-            <p style="text-align: center; color: #999; font-size: 0.9em; margin-top: 15px;">
-                * You must accept the terms and conditions to proceed
-            </p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScxciNz58V6pudfmDs-6Ye3dROLHnH4nWoNcEONN12Z8z3yTA/viewform?usp=dialog" target="_blank" class="btn">
+                🎤 Fill Application Form
+            </a>
         </div>
 
         <div class="hashtags">
@@ -489,35 +467,6 @@
     </div>
 
     <script>
-        // Terms checkbox functionality
-        const termsCheckbox = document.getElementById('termsCheckbox');
-        const applyBtn = document.getElementById('applyBtn');
-        
-        // Replace this URL with your actual Google Form URL
-        const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScxciNz58V6pudfmDs-6Ye3dROLHnH4nWoNcEONN12Z8z3yTA/viewform?usp=dialog';
-        
-        termsCheckbox.addEventListener('change', function() {
-            if (this.checked) {
-                applyBtn.disabled = false;
-                applyBtn.style.opacity = '1';
-                applyBtn.style.cursor = 'pointer';
-            } else {
-                applyBtn.disabled = true;
-                applyBtn.style.opacity = '0.5';
-                applyBtn.style.cursor = 'not-allowed';
-            }
-        });
-        
-        applyBtn.addEventListener('click', function(e) {
-            if (!termsCheckbox.checked) {
-                e.preventDefault();
-                alert('Please accept the terms and conditions before proceeding.');
-                return;
-            }
-            // Open Google Form in new tab
-            window.open(GOOGLE_FORM_URL, '_blank');
-        });
-
         // Slideshow functionality
         let slideIndex = 1;
         showSlides(slideIndex);
