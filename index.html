@@ -339,6 +339,100 @@
             font-weight: 500;
         }
 
+        .pdf-container {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            background: #f8f9fa;
+        }
+
+        .pdf-container embed {
+            border: none;
+            border-radius: 12px;
+        }
+
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            max-height: 500px;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 500px;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            margin-top: -30px;
+            padding: 16px 20px;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            transition: 0.3s ease;
+            border-radius: 0 8px 8px 0;
+            user-select: none;
+            background: rgba(0, 0, 0, 0.5);
+            text-decoration: none;
+            z-index: 10;
+        }
+
+        .next {
+            right: 0;
+            border-radius: 8px 0 0 8px;
+        }
+
+        .prev:hover, .next:hover {
+            background: rgba(142, 45, 226, 0.9);
+        }
+
+        .slideshow-dots {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .dot {
+            cursor: pointer;
+            height: 12px;
+            width: 12px;
+            margin: 0 5px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .dot.active, .dot:hover {
+            background-color: #8e2de2;
+        }
+
+        .fade {
+            animation-name: fade;
+            animation-duration: 1s;
+        }
+
+        @keyframes fade {
+            from {opacity: 0.4}
+            to {opacity: 1}
+        }
+
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 1.8em;
@@ -350,6 +444,10 @@
 
             .info-card {
                 padding: 15px;
+            }
+
+            .slide {
+                height: 300px;
             }
         }
     </style>
@@ -404,6 +502,40 @@
                 <li>✨ Live audience interaction</li>
                 <li>🌟 Renowned judges and performers from the industry</li>
             </ul>
+        </div>
+
+        <div class="video-section">
+            <h2>📸 Event Gallery</h2>
+            <div class="slideshow-container">
+                <div class="slide fade">
+                    <img src="photo1.jpeg" alt="Event Photo 1">
+                </div>
+                <div class="slide fade">
+                    <img src="photo2.jpeg" alt="Event Photo 2">
+                </div>
+                <a class="prev" onclick="changeSlide(-1)">❮</a>
+                <a class="next" onclick="changeSlide(1)">❯</a>
+            </div>
+            
+            <div class="slideshow-dots">
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+                <span class="dot" onclick="currentSlide(4)"></span>
+                <span class="dot" onclick="currentSlide(5)"></span>
+            </div>
+        </div>
+
+        <div class="video-section">
+            <h2>📜 Competition Rules</h2>
+            <div class="pdf-container">
+                <embed src="rules.pdf" type="application/pdf" width="100%" height="600px">
+            </div>
+            <p style="text-align: center; margin-top: 15px; color: #666;">
+                <a href="rules.pdf" download="Universal-Voice-Battle-Rules.pdf" class="btn" style="display: inline-block; padding: 12px 30px; font-size: 1em;">
+                    📥 Download Rules PDF
+                </a>
+            </p>
         </div>
 
         <div class="action-section">
@@ -509,6 +641,46 @@
         function showStatus(message, type) {
             status.textContent = message;
             status.className = 'status show ' + type;
+        }
+
+        // Slideshow functionality
+        let slideIndex = 1;
+        showSlides(slideIndex);
+
+        // Auto-play slideshow
+        setInterval(() => {
+            changeSlide(1);
+        }, 5000); // Change image every 5 seconds
+
+        function changeSlide(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+            const slides = document.getElementsByClassName('slide');
+            const dots = document.getElementsByClassName('dot');
+            
+            if (n > slides.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = slides.length }
+            
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.remove('active');
+            }
+            
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].classList.remove('active');
+            }
+            
+            if (slides[slideIndex - 1]) {
+                slides[slideIndex - 1].classList.add('active');
+            }
+            if (dots[slideIndex - 1]) {
+                dots[slideIndex - 1].classList.add('active');
+            }
         }
     </script>
 </body>
