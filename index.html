@@ -232,98 +232,6 @@
             transform: translateY(0);
         }
 
-        .upload-area {
-            border: 3px dashed #8e2de2;
-            border-radius: 12px;
-            padding: 40px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: #f8f9fa;
-            margin-top: 20px;
-        }
-
-        .upload-area:hover {
-            background: #f0e6ff;
-            border-color: #ff6b6b;
-        }
-
-        .upload-area.dragover {
-            background: #e8d5ff;
-            border-color: #8e2de2;
-            transform: scale(1.02);
-        }
-
-        input[type="file"] {
-            display: none;
-        }
-
-        .icon-large {
-            font-size: 3em;
-            margin-bottom: 15px;
-        }
-
-        .file-list {
-            margin-top: 20px;
-        }
-
-        .file-item {
-            background: #f8f9fa;
-            padding: 15px 20px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 2px solid #e9ecef;
-        }
-
-        .file-item span {
-            color: #333;
-            font-size: 1em;
-        }
-
-        .file-size {
-            color: #666;
-            font-size: 0.9em;
-            margin-left: 10px;
-        }
-
-        .status {
-            margin-top: 15px;
-            padding: 15px;
-            border-radius: 10px;
-            display: none;
-            animation: slideIn 0.3s ease;
-        }
-
-        .status.show {
-            display: block;
-        }
-
-        .status.success {
-            background: #d4edda;
-            color: #155724;
-            border: 2px solid #c3e6cb;
-        }
-
-        .status.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 2px solid #f5c6cb;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         .hashtags {
             background: white;
             border-radius: 15px;
@@ -337,6 +245,14 @@
             font-size: 0.95em;
             line-height: 1.8;
             font-weight: 500;
+        }
+
+        input[type="checkbox"] {
+            accent-color: #8e2de2;
+        }
+
+        input[type="checkbox"]:hover {
+            cursor: pointer;
         }
 
         .pdf-container {
@@ -540,24 +456,25 @@
 
         <div class="action-section">
             <h2>📋 Apply to Compete</h2>
-            <p>Think you have what it takes? Download the application form, fill it out, and upload it back to secure your spot in the competition!</p>
-            <a href="application-form.pdf" download="Universal-Voice-Battle-Application.pdf" class="btn">
-                📥 Download Application Form
-            </a>
-        </div>
-
-        <div class="action-section">
-            <h2>📤 Submit Your Application</h2>
-            <p>Completed your application? Upload it here to enter the competition. Make sure all fields are filled correctly!</p>
+            <p>Think you have what it takes? Fill out our online application form to secure your spot in the competition!</p>
             
-            <div class="upload-area" id="uploadArea">
-                <div class="icon-large">🎵</div>
-                <p style="font-size: 1.1em; color: #333;"><strong>Click to upload</strong> or drag and drop</p>
-                <p style="font-size: 0.95em; color: #666; margin-top: 10px;">Upload your completed application form (PDF only)</p>
-                <input type="file" id="fileInput" accept=".pdf" multiple>
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 12px; margin: 20px 0;">
+                <div style="display: flex; align-items: start; margin-bottom: 20px;">
+                    <input type="checkbox" id="termsCheckbox" style="display: block; width: 20px; height: 20px; margin-right: 15px; margin-top: 3px; cursor: pointer;">
+                    <label for="termsCheckbox" style="color: #333; font-size: 1em; line-height: 1.6; cursor: pointer;">
+                        <strong>I agree to the terms and conditions:</strong> I confirm that all information provided is accurate and complete. I understand that I must follow all competition rules and guidelines. I give permission for my performance to be recorded and shared on social media platforms. I accept that the judges' decisions are final.
+                        <span style="color: #ff6b6b; font-weight: bold;">*</span>
+                    </label>
+                </div>
+                
+                <button id="applyBtn" class="btn" disabled style="opacity: 0.5; cursor: not-allowed;">
+                    🎤 Fill Application Form
+                </button>
             </div>
-            <div class="file-list" id="fileList"></div>
-            <div class="status" id="status"></div>
+
+            <p style="text-align: center; color: #999; font-size: 0.9em; margin-top: 15px;">
+                * You must accept the terms and conditions to proceed
+            </p>
         </div>
 
         <div class="hashtags">
@@ -572,76 +489,34 @@
     </div>
 
     <script>
-        const uploadArea = document.getElementById('uploadArea');
-        const fileInput = document.getElementById('fileInput');
-        const fileList = document.getElementById('fileList');
-        const status = document.getElementById('status');
-        let selectedFiles = [];
-
-        // Click to upload
-        uploadArea.addEventListener('click', () => fileInput.click());
-
-        // Drag and drop
-        uploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadArea.classList.add('dragover');
+        // Terms checkbox functionality
+        const termsCheckbox = document.getElementById('termsCheckbox');
+        const applyBtn = document.getElementById('applyBtn');
+        
+        // Replace this URL with your actual Google Form URL
+        const GOOGLE_FORM_URL = 'https://forms.gle/YOUR-GOOGLE-FORM-ID';
+        
+        termsCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                applyBtn.disabled = false;
+                applyBtn.style.opacity = '1';
+                applyBtn.style.cursor = 'pointer';
+            } else {
+                applyBtn.disabled = true;
+                applyBtn.style.opacity = '0.5';
+                applyBtn.style.cursor = 'not-allowed';
+            }
         });
-
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.classList.remove('dragover');
-        });
-
-        uploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadArea.classList.remove('dragover');
-            const files = Array.from(e.dataTransfer.files);
-            handleFiles(files);
-        });
-
-        // File input change
-        fileInput.addEventListener('change', (e) => {
-            const files = Array.from(e.target.files);
-            handleFiles(files);
-        });
-
-        function handleFiles(files) {
-            const pdfFiles = files.filter(file => file.type === 'application/pdf');
-            
-            if (pdfFiles.length === 0) {
-                showStatus('❌ Please upload PDF files only', 'error');
+        
+        applyBtn.addEventListener('click', function(e) {
+            if (!termsCheckbox.checked) {
+                e.preventDefault();
+                alert('Please accept the terms and conditions before proceeding.');
                 return;
             }
-
-            selectedFiles = [];
-            pdfFiles.forEach(file => {
-                selectedFiles.push(file);
-            });
-
-            renderFileList();
-            showStatus(`✓ ${pdfFiles.length} application(s) received! We'll contact you soon.`, 'success');
-        }
-
-        function renderFileList() {
-            fileList.innerHTML = '';
-            selectedFiles.forEach(file => {
-                const fileItem = document.createElement('div');
-                fileItem.className = 'file-item';
-                
-                const fileSize = (file.size / 1024).toFixed(2);
-                
-                fileItem.innerHTML = `
-                    <span>📄 ${file.name} <span class="file-size">${fileSize} KB</span></span>
-                    <span style="color: #28a745; font-weight: bold;">✓ Received</span>
-                `;
-                
-                fileList.appendChild(fileItem);
-            });
-        }
-
-        function showStatus(message, type) {
-            status.textContent = message;
-            status.className = 'status show ' + type;
-        }
+            // Open Google Form in new tab
+            window.open(GOOGLE_FORM_URL, '_blank');
+        });
 
         // Slideshow functionality
         let slideIndex = 1;
